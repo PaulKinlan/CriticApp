@@ -2,11 +2,14 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from flask_login import LoginManager
 
 class Base(DeclarativeBase):
     pass
 
 db = SQLAlchemy(model_class=Base)
+login_manager = LoginManager()
+
 app = Flask(__name__)
 
 # Configuration
@@ -34,7 +37,17 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 # Initialize Flask-SQLAlchemy
 db.init_app(app)
 
+# Initialize Flask-Login
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
+
+@login_manager.user_loader
+def load_user(user_id):
+    from models import User
+    return User.query.get(int(user_id))
+
 with app.app_context():
-    from models import Critic, Document, Critique, CriticTemplate
+    from models import User, Critic, Document, Critique, CriticTemplate
     # Only create tables if they don't exist
     db.create_all()
