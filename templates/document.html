@@ -8,6 +8,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Original Document</h5>
+                    <div class="badge bg-secondary mb-2">{{ document.critique_mode|title }} Analysis</div>
                     <div class="markdown-content">
                         {{ content_html|safe }}
                     </div>
@@ -23,7 +24,7 @@
                     <strong>{{ critique.critic.name }}</strong>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ critique.feedback }}</p>
+                    <p class="card-text">{{ critique.feedback|nl2br }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -38,6 +39,23 @@
                     <label for="content" class="form-label">Document Content (Markdown)</label>
                     <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
                     <div class="form-text">Write or paste your document using Markdown formatting.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Critique Mode</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="quick" value="quick">
+                        <label class="form-check-label" for="quick">
+                            Quick Review
+                            <small class="text-muted d-block">Get a brief, high-level critique focusing on key points.</small>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="detailed" value="detailed" checked>
+                        <label class="form-check-label" for="detailed">
+                            Detailed Analysis
+                            <small class="text-muted d-block">Receive comprehensive feedback with structured analysis.</small>
+                        </label>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Get Critique</button>
             </form>

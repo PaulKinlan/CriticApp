@@ -11,6 +11,7 @@ class Critic(db.Model):
 class Document(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
+    critique_mode = db.Column(db.String(20), nullable=False, default='detailed')  # 'quick' or 'detailed'
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     critiques = db.relationship('Critique', backref='document', lazy=True)
 

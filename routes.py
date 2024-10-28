@@ -37,14 +37,16 @@ def delete_critic(id):
 def document():
     if request.method == 'POST':
         content = request.form.get('content')
+        mode = request.form.get('mode', 'detailed')
+        
         if content:
-            document = Document(content=content)
+            document = Document(content=content, critique_mode=mode)
             db.session.add(document)
             db.session.commit()
             
             critics = Critic.query.filter_by(active=True).all()
             for critic in critics:
-                feedback = gemini.generate_critique(content, critic.persona)
+                feedback = gemini.generate_critique(content, critic.persona, mode)
                 critique = Critique(
                     document_id=document.id,
                     critic_id=critic.id,
@@ -69,3 +71,7 @@ def document():
 def history():
     documents = Document.query.order_by(Document.created_at.desc()).all()
     return render_template('history.html', documents=documents)
+
+@app.template_filter('nl2br')
+def nl2br_filter(s):
+    return s.replace('\n', '<br>')
