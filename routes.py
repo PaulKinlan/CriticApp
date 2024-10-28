@@ -1,8 +1,10 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify
+from flask import render_template, request, redirect, url_for, flash, jsonify, send_file
 from app import app, db
 from models import Critic, Document, Critique
 from gemini_handler import GeminiHandler
+from export_handler import ExportHandler
 import markdown
+from io import BytesIO
 
 gemini = GeminiHandler()
 
@@ -71,6 +73,40 @@ def document():
 def history():
     documents = Document.query.order_by(Document.created_at.desc()).all()
     return render_template('history.html', documents=documents)
+
+@app.route('/export/<int:doc_id>/<format>')
+def export_document(doc_id, format):
+    document = Document.query.get_or_404(doc_id)
+    critiques = document.critiques
+    
+    if format == 'pdf':
+        pdf_content = ExportHandler.to_pdf(document, critiques)
+        buffer = BytesIO(pdf_content)
+        return send_file(
+            buffer,
+            download_name=f'critique_report_{doc_id}.pdf',
+            mimetype='application/pdf'
+        )
+    
+    elif format == 'html':
+        html_content = ExportHandler.to_html(document, critiques)
+        buffer = BytesIO(html_content.encode())
+        return send_file(
+            buffer,
+            download_name=f'critique_report_{doc_id}.html',
+            mimetype='text/html'
+        )
+    
+    elif format == 'json':
+        json_content = ExportHandler.to_json(document, critiques)
+        buffer = BytesIO(json_content.encode())
+        return send_file(
+            buffer,
+            download_name=f'critique_report_{doc_id}.json',
+            mimetype='application/json'
+        )
+    
+    return "Invalid format", 400
 
 @app.template_filter('nl2br')
 def nl2br_filter(s):
