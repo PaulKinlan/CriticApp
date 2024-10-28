@@ -7,6 +7,7 @@ class Critic(db.Model):
     persona = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     active = db.Column(db.Boolean, default=True)
+    critiques = db.relationship('Critique', backref='critic', lazy=True)
 
 class Document(db.Model):
     id = db.Column(db.Integer, primary_key=True)
