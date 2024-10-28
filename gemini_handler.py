@@ -3,6 +3,10 @@ import os
 
 class GeminiHandler:
     def __init__(self):
+        api_key = os.environ.get('GOOGLE_API_KEY')
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
+        genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-pro')
     
     def generate_critique(self, document_text, persona):
