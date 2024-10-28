@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if document %}
+    <h1 class="mb-4">Document Critique Results</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Original Document</h5>
+                    <div class="markdown-content">
+                        {{ content_html|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <h3>Critiques</h3>
+            {% for critique in document.critiques %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>{{ critique.critic.name }}</strong>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ critique.feedback }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <h1 class="mb-4">Submit New Document</h1>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="content" class="form-label">Document Content (Markdown)</label>
+                    <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+                    <div class="form-text">Write or paste your document using Markdown formatting.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Get Critique</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

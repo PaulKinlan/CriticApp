@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-dark rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Document Critique System</h1>
+        <p class="col-md-8 fs-4">Get insightful feedback on your documents from AI-powered critics with unique personas.</p>
+        <a href="{{ url_for('document') }}" class="btn btn-primary btn-lg">Start New Critique</a>
+        <a href="{{ url_for('critics') }}" class="btn btn-secondary btn-lg">Manage Critics</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Configure Critics</h2>
+        <p>Create and manage AI critics with unique personas to provide diverse perspectives on your documents.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Submit Documents</h2>
+        <p>Submit your documents in Markdown format for detailed analysis and feedback.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get Feedback</h2>
+        <p>Receive comprehensive critiques based on each critic's unique perspective and expertise.</p>
+    </div>
+</div>
+{% endblock %}

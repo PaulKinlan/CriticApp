@@ -1,0 +1,15 @@
+.markdown-content {
+    padding: 1rem;
+    background: var(--bs-dark);
+    border-radius: 0.375rem;
+}
+
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card {
+    margin-bottom: 1rem;
+    border-color: var(--bs-border-color);
+}
