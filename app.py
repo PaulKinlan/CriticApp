@@ -35,6 +35,6 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 db.init_app(app)
 
 with app.app_context():
-    from models import Critic, Document, Critique
+    from models import Critic, Document, Critique, CriticTemplate
     # Only create tables if they don't exist
     db.create_all()

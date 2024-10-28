@@ -1,25 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="mb-4">Manage Critics</h1>
-
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Add New Critic</h5>
                 <form method="POST">
                     <div class="mb-3">
+                        <label for="template_id" class="form-label">Use Template (Optional)</label>
+                        <select class="form-select" id="template_id" name="template_id">
+                            <option value="">Create Custom Critic</option>
+                            {% for template in templates %}
+                            <option value="{{ template.id }}">{{ template.name }} ({{ template.category|title }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" id="persona-group">
                         <label for="persona" class="form-label">Persona Description</label>
                         <textarea class="form-control" id="persona" name="persona" rows="4" required></textarea>
                         <div class="form-text">Describe the critic's personality, expertise, and perspective.</div>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Critic</button>
                 </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Templates</h5>
+                <p class="card-text">Create and manage reusable critic templates for common use cases.</p>
+                <a href="{{ url_for('templates') }}" class="btn btn-secondary">Manage Templates</a>
             </div>
         </div>
     </div>
@@ -41,4 +55,11 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+document.getElementById('template_id').addEventListener('change', function() {
+    const personaGroup = document.getElementById('persona-group');
+    personaGroup.style.display = this.value ? 'none' : 'block';
+});
+</script>
 {% endblock %}
