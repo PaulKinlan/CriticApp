@@ -31,7 +31,7 @@ class ExportHandler:
             pdf.multi_cell(0, 10, critique.feedback)
             pdf.ln(5)
         
-        return pdf.output(dest='S').encode('latin1')
+        return pdf.output(dest='S')
     
     @staticmethod
     def to_html(document, critiques):
