@@ -7,7 +7,6 @@ class Critic(db.Model):
     persona = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     active = db.Column(db.Boolean, default=True)
-    critiques = db.relationship('Critique', backref='critic', lazy=True)
 
 class Document(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,3 +20,4 @@ class Critique(db.Model):
     critic_id = db.Column(db.Integer, db.ForeignKey('critic.id'), nullable=False)
     feedback = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    critic = db.relationship('Critic', backref='critiques')
