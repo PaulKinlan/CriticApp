@@ -53,13 +53,19 @@ def document():
                 db.session.add(critique)
             
             db.session.commit()
+            flash('Document submitted and critiques generated!', 'success')
             return redirect(url_for('document', doc_id=document.id))
     
     doc_id = request.args.get('doc_id')
     if doc_id:
         document = Document.query.get_or_404(doc_id)
         return render_template('document.html', 
-                             document=document,
-                             content_html=markdown.markdown(document.content))
+                            document=document,
+                            content_html=markdown.markdown(document.content))
     
     return render_template('document.html')
+
+@app.route('/history')
+def history():
+    documents = Document.query.order_by(Document.created_at.desc()).all()
+    return render_template('history.html', documents=documents)
