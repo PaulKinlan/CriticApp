@@ -10,7 +10,7 @@
                     <h5 class="card-title">Original Document</h5>
                     <div class="badge bg-secondary mb-2">{{ document.critique_mode|title }} Analysis</div>
                     <div class="markdown-content">
-                        {{ content_html|safe }}
+                        {{ document.content|markdown|safe }}
                     </div>
                 </div>
             </div>
@@ -41,7 +41,9 @@
                     <strong>{{ critique.critic.name }}</strong>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ critique.feedback|nl2br }}</p>
+                    <div class="markdown-content">
+                        {{ critique.feedback|markdown|safe }}
+                    </div>
                 </div>
             </div>
             {% endfor %}

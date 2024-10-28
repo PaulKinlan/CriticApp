@@ -9,6 +9,10 @@ from io import BytesIO
 
 gemini = GeminiHandler()
 
+@app.template_filter('markdown')
+def markdown_filter(text):
+    return markdown.markdown(text)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -252,9 +256,7 @@ def document():
             flash('Access denied', 'danger')
             return redirect(url_for('document'))
         
-        return render_template('document.html', 
-                            document=document,
-                            content_html=markdown.markdown(document.content))
+        return render_template('document.html', document=document)
     
     return render_template('document.html')
 
@@ -302,7 +304,3 @@ def export_document(doc_id, format):
         )
     
     return "Invalid format", 400
-
-@app.template_filter('nl2br')
-def nl2br_filter(s):
-    return s.replace('\n', '<br>')
