@@ -49,5 +49,6 @@ def load_user(user_id):
 
 with app.app_context():
     from models import User, Critic, Document, Critique, CriticTemplate
-    # Only create tables if they don't exist
+    # Drop all tables and recreate them with new schema
+    db.drop_all()
     db.create_all()
