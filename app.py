@@ -36,4 +36,6 @@ db.init_app(app)
 
 with app.app_context():
     from models import Critic, Document, Critique
+    # Drop all tables and recreate them
+    db.drop_all()
     db.create_all()
